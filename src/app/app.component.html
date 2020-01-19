@@ -1,0 +1,73 @@
+<h1>Welcome to Financing decisions</h1>
+<p>This is the description</p>
+
+<form [formGroup]="form" layout="column" class="grid">
+
+  <label>
+    n:
+    <input type="text" formControlName="n">
+  </label>
+
+  <label>
+    t:
+    <input type="text" formControlName="t">
+  </label>
+
+  <label>
+    poc_0:
+    <input type="text" formControlName="poc_0">
+  </label>
+
+  <label>
+    sigma:
+    <input type="text" formControlName="sigma">
+  </label>
+
+</form>
+
+<p>
+  <button (click)="getUnderyingTree()">Underlying tree</button>
+</p>
+
+<div *ngIf="underlyingTree">
+  There is an underyling tree :)
+
+  <table class="blueTable">
+<!--    <th *ngFor="let tprices of underlyingTree.tree; let h=index">-->
+<!--      Current period: {{h}}-->
+<!--    </th>-->
+    <tr *ngFor="let tprices of underlyingTree.tree; let t=index">
+      <td>
+        Current period: {{t}}
+      </td>
+      <td *ngFor="let vprice of tprices; let j=index">
+        {{vprice}}
+      </td>
+    </tr>
+  </table>
+
+  <pre>Data Obtained is: {{ underlyingTree | json }}</pre>
+<!--  <div *ngFor="let tprices of underlyingTree.tree; let i=index">-->
+<!--    <div *ngFor="let vprice of tprices; let j=index">-->
+<!--      <div>{{vprice}}</div>-->
+<!--    </div>-->
+<!--  </div>-->
+</div>
+
+<!--<table style="width:100%">-->
+<!--  <tr>-->
+<!--    <th>Firstname</th>-->
+<!--    <th>Lastname</th>-->
+<!--    <th>Age</th>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>Jill</td>-->
+<!--    <td>Smith</td>-->
+<!--    <td>50</td>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>Eve</td>-->
+<!--    <td>Jackson</td>-->
+<!--    <td>94</td>-->
+<!--  </tr>-->
+<!--</table>-->
