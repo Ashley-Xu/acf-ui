@@ -1,73 +1,219 @@
 <h1>Welcome to Financing decisions</h1>
 <p>This is the description</p>
 
-<form [formGroup]="form" layout="column" class="grid">
+<div style="text-align: center;">
+  <form [formGroup]="form" layout="column" class="grid">
 
-  <label>
-    n:
-    <input type="text" formControlName="n">
-  </label>
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Periods: " formControlName="n">
+      </mat-form-field>
+    </div>
 
-  <label>
-    t:
-    <input type="text" formControlName="t">
-  </label>
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Time until Maturity: " formControlName="t">
+      </mat-form-field>
+    </div>
 
-  <label>
-    poc_0:
-    <input type="text" formControlName="poc_0">
-  </label>
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="price of the underlying assets right now: " formControlName="poc_0">
+      </mat-form-field>
+    </div>
 
-  <label>
-    sigma:
-    <input type="text" formControlName="sigma">
-  </label>
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Volatility of the price: " formControlName="sigma">
+      </mat-form-field>
+    </div>
 
-</form>
+  </form>
 
-<p>
-  <button (click)="getUnderyingTree()">Underlying tree</button>
-</p>
+  <p>
+    <button mat-raised-button color= "accent" (click)="getUnderyingTree()">Underlying tree</button>
+  </p>
 
-<div *ngIf="underlyingTree">
-  There is an underyling tree :)
+  <p>After we have gotten the prices of the underlying assets under different senarios </p>
+  <div *ngIf="underlyingTree">
+    There is an underyling tree :)
 
-  <table class="blueTable">
-<!--    <th *ngFor="let tprices of underlyingTree.tree; let h=index">-->
-<!--      Current period: {{h}}-->
-<!--    </th>-->
-    <tr *ngFor="let tprices of underlyingTree.tree; let t=index">
-      <td>
-        Current period: {{t}}
-      </td>
-      <td *ngFor="let vprice of tprices; let j=index">
-        {{vprice}}
-      </td>
-    </tr>
-  </table>
+    <table class="blueTable">
+      <!--    <th *ngFor="let tprices of underlyingTree.tree; let h=index">-->
+      <!--      Current period: {{h}}-->
+      <!--    </th>-->
+      <tr *ngFor="let tprices of underlyingTree.tree; let t=index">
+        <td>
+          Current period: {{t}}
+        </td>
+        <td *ngFor="let vprice of tprices; let j=index">
+          {{vprice}}
+        </td>
+      </tr>
+    </table>
 
-  <pre>Data Obtained is: {{ underlyingTree | json }}</pre>
-<!--  <div *ngFor="let tprices of underlyingTree.tree; let i=index">-->
-<!--    <div *ngFor="let vprice of tprices; let j=index">-->
-<!--      <div>{{vprice}}</div>-->
-<!--    </div>-->
-<!--  </div>-->
+    <pre>Data Obtained is: {{ underlyingTree | json }}</pre>
+    <!--  <div *ngFor="let tprices of underlyingTree.tree; let i=index">-->
+    <!--    <div *ngFor="let vprice of tprices; let j=index">-->
+    <!--      <div>{{vprice}}</div>-->
+    <!--    </div>-->
+    <!--  </div>-->
+  </div>
+  <form [formGroup]="form" layout="column" class="grid">
+
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Periods: " formControlName="n">
+      </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Time until Maturity: " formControlName="t">
+      </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="price of the underlying assets right now: " formControlName="poc_0">
+      </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Volatility of the price: " formControlName="sigma">
+      </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Riskfree rate:  " formControlName="rf">
+      </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="The price of your product right now per unit: " formControlName="pop_0">
+      </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="The ammount of underlying assets to produce one unit of product: " formControlName="aoc">
+      </mat-form-field>
+    </div>
+
+    <div style="text-align: center;">
+      <mat-form-field color="accent">
+        <input matInput placeholder="Other operational cost: " formControlName="coo">
+      </mat-form-field>
+    </div>
+
+    <div formArrayName="listOfStrategies">
+      <mat-list>
+        <mat-list-item class="height-unset" *ngFor="let strategy of form.get('listOfStrategies').controls; let i=index"
+                       [formGroupName]="i">
+          <div class="form">
+            <mat-form-field color="accent">
+              <input matInput placeholder="Gain or Loss" formControlName="gol">
+            </mat-form-field>
+            <mat-form-field color="accent">
+              <input matInput placeholder="Sales Level" formControlName="sl">
+            </mat-form-field>
+          </div>
+          <button mat-icon-button color="accent" (click)="onDeleteStrategy(i)">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+      <button mat-icon-button color="accent" (click)="onAddStrategy()">
+        add strategy
+        <mat-icon aria-label="Add">add</mat-icon>
+      </button>
+    </div>
+    <!--  <div layout="row">-->
+    <!--    <label>-->
+    <!--      gainOrLoss1:-->
+    <!--      <input type="text" formControlName="coo">-->
+    <!--    </label>-->
+
+    <!--    <label>-->
+    <!--      salesLevel1:-->
+    <!--      <input type="text" formControlName="coo">-->
+    <!--    </label>-->
+    <!--  </div>-->
+
+
+    <!--  <label>-->
+    <!--    gainOrLoss2:-->
+    <!--    <input type="text" formControlName="gainOrLoss2">-->
+    <!--  </label>-->
+
+    <!--  <label>-->
+    <!--    salesLevel2:-->
+    <!--    <input type="text" formControlName="salesLevel2">-->
+    <!--  </label>-->
+
+    <!--  <label>-->
+    <!--    gainOrLoss3:-->
+    <!--    <input type="text" formControlName="gainOrLoss3">-->
+    <!--  </label>-->
+
+    <!--  <label>-->
+    <!--    salesLevel3:-->
+    <!--    <input type="text" formControlName="salesLevel3">-->
+    <!--  </label>-->
+  </form>
+  <p>
+    <button mat-raised-button color= "accent" (click)="getCube()">Compute the Cube</button>
+  </p>
 </div>
 
-<!--<table style="width:100%">-->
-<!--  <tr>-->
-<!--    <th>Firstname</th>-->
-<!--    <th>Lastname</th>-->
-<!--    <th>Age</th>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <td>Jill</td>-->
-<!--    <td>Smith</td>-->
-<!--    <td>50</td>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <td>Eve</td>-->
-<!--    <td>Jackson</td>-->
-<!--    <td>94</td>-->
-<!--  </tr>-->
-<!--</table>-->
+
+<!--<div *ngIf="cu<div *ngIf="cube">-->
+
+<!--  <table class="blueTable">-->
+<!--    &lt;!&ndash;    <th *ngFor="let tprices of underlyingTree.tree; let h=index">&ndash;&gt;-->
+<!--    &lt;!&ndash;      Current period: {{h}}&ndash;&gt;-->
+<!--    &lt;!&ndash;    </th>&ndash;&gt;-->
+<!--    <tr *ngFor="let tprices of cube.; let t=index">-->
+<!--      <td>-->
+<!--        Current period: {{t}}-->
+<!--      </td>-->
+<!--      <td *ngFor="let vprice of tprices; let j=index">-->
+<!--        {{vprice}}-->
+<!--      </td>-->
+<!--    </tr>-->
+<!--  </table>-->
+
+<!--  <pre>Data Obtained is: {{ cube | json }}</pre>-->
+<!--  &lt;!&ndash;  <div *ngFor="let tprices of underlyingTree.tree; let i=index">&ndash;&gt;-->
+<!--  &lt;!&ndash;    <div *ngFor="let vprice of tprices; let j=index">&ndash;&gt;-->
+<!--  &lt;!&ndash;      <div>{{vprice}}</div>&ndash;&gt;-->
+<!--  &lt;!&ndash;    </div>&ndash;&gt;-->
+<!--  &lt;!&ndash;  </div>&ndash;&gt;-->
+<!--</div>be">-->
+
+<!--  <table class="blueTable">-->
+<!--    &lt;!&ndash;    <th *ngFor="let tprices of underlyingTree.tree; let h=index">&ndash;&gt;-->
+<!--    &lt;!&ndash;      Current period: {{h}}&ndash;&gt;-->
+<!--    &lt;!&ndash;    </th>&ndash;&gt;-->
+<!--    <tr *ngFor="let tprices of cube.; let t=index">-->
+<!--      <td>-->
+<!--        Current period: {{t}}-->
+<!--      </td>-->
+<!--      <td *ngFor="let vprice of tprices; let j=index">-->
+<!--        {{vprice}}-->
+<!--      </td>-->
+<!--    </tr>-->
+<!--  </table>-->
+
+<!--  <pre>Data Obtained is: {{ cube | json }}</pre>-->
+<!--  &lt;!&ndash;  <div *ngFor="let tprices of underlyingTree.tree; let i=index">&ndash;&gt;-->
+<!--  &lt;!&ndash;    <div *ngFor="let vprice of tprices; let j=index">&ndash;&gt;-->
+<!--  &lt;!&ndash;      <div>{{vprice}}</div>&ndash;&gt;-->
+<!--  &lt;!&ndash;    </div>&ndash;&gt;-->
+<!--  &lt;!&ndash;  </div>&ndash;&gt;-->
+<!--</div>-->
+
+

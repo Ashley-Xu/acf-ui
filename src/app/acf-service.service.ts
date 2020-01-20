@@ -8,6 +8,8 @@ import {throwError} from 'rxjs';
 })
 export class AcfServiceService {
 
+  constructor(private http: HttpClient) { }
+
    httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -16,7 +18,7 @@ export class AcfServiceService {
   };
   utUrl = 'http://localhost:8080/acf-api/acf/ut';
 
-  constructor(private http: HttpClient) { }
+  cubeUrl = 'http://localhost:8080/acf-api/acf/rcube';
 
   getUnderlyingTree(n: number, t: number, poc_0: number, sigma: number) {
     const input = {
@@ -45,6 +47,25 @@ export class AcfServiceService {
     };
 
     return this.http.post<any>(this.utUrl, input, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getCube(n: number, t: number, poc_0: number, sigma: number, rf: number, pop_0: number, aoc: number, coo: number, realOptions: {gainOrLoss: number, salesLevel: number}[] ) {
+    const input = {
+      n,
+      t,
+      poc_0,
+      sigma,
+      rf,
+      pop_0,
+      aoc,
+      coo,
+      realOptions
+    };
+
+    return this.http.post<any>(this.cubeUrl, input, this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );

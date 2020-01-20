@@ -58,3 +58,7 @@ table.blueTable tfoot .links a{
   padding: 2px 8px;
   border-radius: 5px;
 }
+
+.mat-form-field {
+  width: 50%;
+}
