@@ -9,12 +9,11 @@ import {AcfServiceService} from './acf-service.service';
 import {CommonModule} from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule} from '@angular/material';
-import { DisplayTreeComponent } from './display-tree/display-tree.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DisplayTreeComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
